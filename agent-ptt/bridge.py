@@ -38,13 +38,27 @@ class Bridge:
         await self._post_to_pa(text)
 
     async def _post_to_pa(self, text: str) -> None:
-        try:
-            async with httpx.AsyncClient(timeout=10.0) as client:
-                resp = await client.post(cfg.pa_webhook_url, json={"text": text})
-                resp.raise_for_status()
-                logger.debug("PA webhook responded: %d", resp.status_code)
-        except Exception:
-            logger.exception("Failed to POST transcription to PA webhook at %s", cfg.pa_webhook_url)
+      headers = {
+          "Authorization": f"Bearer {cfg.pa_webhook_token}",
+          "Content-Type": "application/json"
+      }
+      payload = {
+          "message": text,
+          "name": "ptt"
+         # "wakeMode": "now",
+         # "deliver": True,
+         # "channel": "telegram",
+         # "to": "8793881665"
+      }
+      try:
+          async with httpx.AsyncClient(timeout=10.0) as client:
+              resp = await client.post(cfg.pa_webhook_url, json=payload, headers=headers)
+              resp.raise_for_status()
+              logger.info("PA webhook responded: %d", resp.status_code)
+      except Exception:
+          logger.exception("Failed to POST transcription to PA webhook at %s", cfg.pa_webhook_url)
+
+
 
     async def speak_task(self) -> None:
         """Dequeue text from the API, synthesize it, and transmit via Zello."""

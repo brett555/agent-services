@@ -191,10 +191,11 @@ class ZelloClient:
 
     async def _connect_once(self) -> None:
         async with aiohttp.ClientSession() as session:
-            async with session.ws_connect(cfg.zello_server_url, heartbeat=30.0) as ws:
+            url = f"{cfg.zello_server_url}/{cfg.zello_network}"
+            async with session.ws_connect(url, heartbeat=30.0) as ws:
                 self._ws = ws
                 self._seq = 0
-                logger.info("Connected to Zello at %s", cfg.zello_server_url)
+                logger.info("Connected to Zello at %s", url)
 
                 reader = asyncio.create_task(self._read_loop(ws))
                 try:

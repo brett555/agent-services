@@ -21,6 +21,7 @@ logging.basicConfig(
 
 
 async def main() -> None:
+    logging.basicConfig(level=logging.DEBUG)
     bridge = Bridge()
     app = create_app(bridge)
 
@@ -30,7 +31,7 @@ async def main() -> None:
             host="0.0.0.0",
             port=cfg.api_port,
             loop="asyncio",
-            log_level="info",
+            log_level="debug",
         )
     )
 

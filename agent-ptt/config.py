@@ -20,11 +20,14 @@ class Config:
     speaches_tts_model: str
     speaches_tts_voice: str
     zello_server_url: str
+    zello_network: str
     zello_auth_token: str
     zello_channel: str
     zello_username: str
     zello_password: str
     pa_webhook_url: str
+    pa_gateway_token: str
+    pa_webhook_token: str
     api_port: int
     api_key: str
 
@@ -34,12 +37,15 @@ cfg = Config(
     speaches_stt_model=os.getenv("SPEACHES_STT_MODEL", "Systran/faster-distil-whisper-small.en"),
     speaches_tts_model=os.getenv("SPEACHES_TTS_MODEL", "speaches-ai/Kokoro-82M-v1.0-ONNX"),
     speaches_tts_voice=os.getenv("SPEACHES_TTS_VOICE", "af_heart"),
-    zello_server_url=os.getenv("ZELLO_SERVER_URL", "wss://zello.io/ws"),
+    zello_server_url=os.getenv("ZELLO_SERVER_URL", "wss://zellowork.io/ws"),
+    zello_network=os.getenv("ZELLO_NETWORK", "controlbinhire"),
     zello_auth_token=os.getenv("ZELLO_AUTH_TOKEN", ""),
     zello_channel=_require("ZELLO_CHANNEL"),
     zello_username=_require("ZELLO_USERNAME"),
     zello_password=_require("ZELLO_PASSWORD"),
     pa_webhook_url=_require("PA_WEBHOOK_URL"),
+    pa_gateway_token=_require("PA_GATEWAY_TOKEN"),
+    pa_webhook_token=os.getenv("PA_WEBHOOK_TOKEN", ""),
     api_port=int(os.getenv("API_PORT", "8080")),
     api_key=_require("API_KEY"),
 )
